@@ -1,0 +1,7 @@
+.container-content {
+  margin:0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 6.8rem);
+}

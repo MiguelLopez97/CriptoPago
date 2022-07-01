@@ -1,0 +1,70 @@
+<div class="row mx-2 my-3" *ngIf="loading">
+  <div class="alert alert-light d-flex justify-content-center align-items-center py-5" *ngIf="loading">
+    <p>
+      <mat-spinner></mat-spinner>
+    </p>
+  </div>
+</div>
+
+<div class="row mx-2 my-3" *ngIf="!loading">
+  <div class="col-md-4">
+    <mat-card>
+      <span class="text-secondary">Pagaste</span>
+      <h4 class="title mb-3">{{pedido.ordenes[0].nombreProducto}}</h4>
+
+      <div class="text-center">
+        <img [src]="pedido.ordenes[0].uriImagen" class="img-thumbnail img-logo">
+      </div>
+
+    </mat-card>
+  </div>
+
+  <div class="col-md-8 mt-4 mt-sm-0">
+    <mat-card>
+      <h4 class="title mb-3">Detalles del pedido #{{pedido.idPedido}}</h4>
+
+      <div class="row">
+        <div class="col-12" *ngIf="pedido.isTrxConfirmed == true">
+          <div class="alert alert-light text-center">
+            <mat-icon class="text-success icon-check">check_circle</mat-icon>
+            <h5 class="text-success">Pago aprobado</h5>
+          </div>
+        </div>
+
+        <div class="col-12" *ngIf="pedido.isTrxConfirmed == false">
+          <div class="alert alert-light text-center">
+            <mat-icon class="text-warning icon-check">schedule</mat-icon>
+            <h5 class="text-dark">Tu pago aún no ha sido confirmado</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="alert alert-secondary">
+            <dl>
+              <dt>Fecha de compra</dt>
+              <dd>{{pedido.fechaInicio | date: 'd MMMM y'}}</dd>
+
+              <dt>Correo electrónico</dt>
+              <dd>{{pedido.correoInvitado}}</dd>
+            </dl>
+          </div>
+        </div>
+  
+        <div class="col-md-6">
+          <div class="alert alert-secondary">
+            <dl>
+              <dt>Monto en pesos mexicanos</dt>
+              <dd>{{pedido.montoTotalMx | currency:'MXN$':'code'}}</dd>
+
+              <dt>Monto en criptos</dt>
+              <dd>{{pedido.montoTotalCripto}} USDT TRC20</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+
+    </mat-card>
+  </div>
+</div>

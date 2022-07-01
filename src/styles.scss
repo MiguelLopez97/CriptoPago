@@ -1,0 +1,86 @@
+html, body { height: 100%; }
+
+body { 
+  margin: 0; 
+  font-family: Inter, Roboto, "Helvetica Neue", sans-serif;
+  //font-family: Inter !important;
+  background-color: rgb(243, 244, 246, 1);
+}
+
+.mat-card, .card {
+  font-family: Inter !important;
+  border-radius: .5rem !important;
+}
+
+.btn-rounded {
+  font-family: Inter !important;
+  border-top-left-radius: 50px !important;
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
+  border-bottom-left-radius: 50px !important;
+}
+
+//Deshabilita el poder dar click en los títulos del MatStepper (Formulario Pago en Línea)
+.mat-step-header {
+  pointer-events: none !important;
+}
+
+//Cambia la fuente de Angular Material Stepper, los 'mat-raised-buttons' y los inputs de un formulario
+.mat-stepper-vertical, 
+.mat-stepper-horizontal, 
+.mat-form-field, 
+.mat-raised-button, 
+.mat-list-option, 
+.mat-simple-snackbar, 
+.mat-button, 
+.mat-select, 
+.mat-option-text,
+.mat-expansion-panel-header,
+.mat-expansion-panel-body,
+.mat-expansion-panel-content,
+.swal2-title,
+.swal2-html-container,
+.swal2-popup {
+  font-family: Inter !important;
+}
+
+.mat-expansion-panel-content {
+  font: unset;
+}
+
+.mat-list-option {
+  font-weight: 500;
+}
+
+input[type=password] {
+  font-size: 11px;
+}
+
+//Estilos para los Radio Button Angular Material
+.mat-radio-label, .mat-radio-container, .mat-radio-label-content {
+  display: flex !important;
+}
+
+.mat-radio-label {
+  justify-content: center;
+}
+
+.mat-radio-checked, .mat-radio-checked .card {
+  /* border: 2px solid #3F51B5 !important;
+  color: #3F51B5; */
+  background-color: #5C6BC0;
+  color: #FFFFFF;
+}
+//End Estilos para los Radio Button Angular Material
+
+//Estilo para ajustar el label del 'mat-checkbox' para cuando son textos largos
+.mat-checkbox-layout {
+  white-space: normal !important;
+}
+
+.font-weight-700 {
+  font-weight: 700;
+}
+
+/*  Importing Bootstrap SCSS file. 
+@import '~bootstrap/scss/bootstrap'; */

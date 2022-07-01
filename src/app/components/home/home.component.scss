@@ -1,0 +1,89 @@
+.container-fluid {
+	background-color: rgba(243, 244, 246, 1) !important;
+}
+
+.main-bg {
+  background: url('https://images.pexels.com/photos/4925916/pexels-photo-4925916.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940');
+  height: 95vh;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+
+  .transparencia {
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 100%;
+    width: 100%;
+    position: relative;
+  }
+}
+
+.title {
+	font-size: 400% !important;
+}
+
+.mat-icon {
+	width: unset !important;
+	height: unset !important;
+	font-size: 2.5rem !important;
+}
+
+//Colores para las Cards (Pago de Servicios, Tiempo Aire y Tarjetas de Regalo)
+.bg-teal-md {
+	background-color: #009688 !important;
+}
+
+.bg-deep-purple-md {
+	background-color: #673AB7 !important;
+}
+
+.bg-indigo-md {
+	background-color: #3F51B5 !important;
+}
+
+//Logos de Servicios
+.logo-servicio {
+	height: 40px !important;
+}
+
+
+//Ajustamos el alto del logo de CriptoPago cuando el dispositivo sea mayor a 1200px (xlg)
+@media (min-width: 1200px)
+{
+  .img-fluid {
+    height: 50vh;
+  }
+}
+
+//Baja el tamaño de la fuente cuando el dispositivo sea menor a 576px (xs)
+@media (max-width: 576px) {
+  .title {
+    font-size: 300% !important;
+  }
+
+  .sub-title {
+    font-size: 1.1rem !important;
+  }
+}
+
+.mat-icon-button {
+  width: unset;
+  height: unset;
+}
+
+.icon-social {
+  font-size: 80px !important;
+}
+
+.font-weight-700 {
+  font-weight: 700;
+}
+
+.curve {
+  display: block;
+  box-sizing: border-box;
+  height: 300px;
+  background-color: #dc3d4b;
+  clip-path: ellipse(87% 100% at 25.95% 0%);
+  border-radius: .5rem;
+}

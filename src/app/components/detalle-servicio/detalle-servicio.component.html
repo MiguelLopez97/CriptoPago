@@ -1,0 +1,210 @@
+<div class="row mx-2 my-3" *ngIf="loading">
+  <div class="alert alert-light d-flex justify-content-center align-items-center py-5" *ngIf="loading">
+    <p>
+      <mat-spinner></mat-spinner>
+    </p>
+  </div>
+</div>
+
+<div class="row mx-2 my-3" *ngIf="!loading">
+  <div class="col-md-3">
+    <mat-card>
+      <mat-card class="text-center h-100 p-lg-5">
+        <img [src]="producto.uriImagen" class="img-fluid img-logo">
+      </mat-card>     
+    </mat-card>
+  </div>
+
+  <div class="col-md-9 mt-4 mt-sm-0">
+    <mat-card>
+      <h4 class="mb-3">{{producto.nombreProducto}}</h4>
+      
+      <p [innerHTML]="producto.descripcion"></p>
+
+      <hr>
+
+      <h6 *ngIf="productoPrecios.length > 0">Seleccione la cantidad</h6>
+
+      <form #productoForm="ngForm">
+        <mat-radio-group name="precio" [(ngModel)]="idProductoPrecio" *ngIf="productoPrecios.length > 0">
+          <div class="row">
+            <div class="col-12 col-md-6 col-xl-4 mb-3" *ngFor="let precio of productoPrecios">
+              <mat-radio-button class="precio" labelPosition="before"  [value]="precio.idProductoPrecio" (click)="openDialogAtributos(dialogTemplate)"><!---(change)="abrirDialog(dialogTemplate)"-->
+                <div class="card p-4 border-0">
+                  <h5>{{precio.precio | currency:'MXN$': 'code'}}</h5>
+                  <small>{{precio.descripcion}}</small>
+                </div>
+              </mat-radio-button>
+            </div>
+            <div class="col-12 col-md-6 col-xl-4 mb-3" *ngIf="permiteMontoPersonalizado">
+              <mat-radio-button class="precio" labelPosition="before"  value="montoPersonalizado" (click)="openDialogAtributos(dialogTemplate)"><!---(change)="abrirDialog(dialogTemplate)"-->
+                <div class="card p-4 border-0">
+                  <h5>Otra cantidad</h5>
+                  <small>Cantidad personalizada</small>
+                </div>
+              </mat-radio-button>
+            </div>
+            <!--- 
+            <div class="col-md-4 mb-3">
+              <mat-radio-button class="precio" labelPosition="before" value="4">
+                <div class="card p-4 border-0">
+                  <h5>Otra cantidad</h5>
+                  <small>Cantidad personalizada</small>
+                </div>
+              </mat-radio-button>
+            </div> -->
+          </div>
+        </mat-radio-group>
+
+        <!--Muestra los datos adicionales si no hay precios para seleccionar-->
+        <div class="row" *ngIf="productoPrecios.length == 0">
+          <div class="col-12">
+            <div class="alert alert-primary" role="alert">
+              {{productoAtributos.length > 1 ? 'Ingresa los datos requeridos' : 'Ingresa el dato requerido'}}
+            </div>
+          </div>
+
+          <mat-form-field class="col-12 col-md-6" 
+              *ngFor="let atributo of productoAtributos" 
+              [ngClass]="{'d-none': atributo.atributo == 'Monto Personalizado' && idProductoPrecio != 'montoPersonalizado'}">
+              <mat-label>{{atributo.atributo}}</mat-label>
+              <!-- <input matInput 
+                #valueAtributo 
+                type="text" 
+                placeholder="{{atributo.descripcion}}" 
+                [maxLength]="atributo.longitud"
+                name="{{atributo.atributo}}"
+                [(ngModel)]="atributo.valor"
+                required> -->
+
+              <input matInput 
+                [ngClass]="{'d-none': atributo.idMascara == 6}"
+                #valueAtributo 
+                #valor="ngModel"
+                type="{{atributo.inputType}}"
+                pattern="{{atributo.pattern}}"
+                (keypress)="validaCaracteres($event, atributo.idMascara)"
+                placeholder="{{atributo.descripcion}}" 
+                [maxLength]="atributo.longitud"
+                name="{{atributo.atributo}}"
+                [(ngModel)]="atributo.valor"
+                required>
+
+              <input matInput 
+                currencyMask
+                *ngIf="atributo.idMascara == 6"
+                #valueAtributo
+                #valor="ngModel"
+                type="{{atributo.inputType}}"
+                pattern="{{atributo.pattern}}"
+                (keypress)="validaCaracteres($event, atributo.idMascara)"
+                placeholder="{{atributo.descripcion}}" 
+                [maxLength]="atributo.longitud"
+                name="{{atributo.atributo}}"
+                [(ngModel)]="atributo.valor"
+                required>
+
+              <mat-hint align="end">{{valueAtributo.value.length}} / {{atributo.longitud}}</mat-hint>
+              <mat-error *ngIf="valueAtributo.value.length == 0">*Campo requerido</mat-error>
+              <mat-error *ngIf="valueAtributo.value.length > 0 && valor.invalid && valor.touched">{{atributo.titleValidation}}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="row mt-4" *ngIf="(productoAtributos.length == 0 && productoPrecios.length > 0) || (productoAtributos.length > 0 && productoPrecios.length == 0)">
+          <div class="text-end">
+            <button color="primary" (click)="goToPago(productoForm)" class="btn-rounded" mat-raised-button>
+              Continuar
+            </button>
+          </div>
+        </div>
+        <!--End Muestra los datos adicionales si no hay precios para seleccionar-->
+  
+        <!---Modal cuando haya precios para elegir y haya campos adicionales requeridos--->
+        <ng-template #dialogTemplate>
+          <div class="row">
+            <h4>Datos adicionales</h4>
+
+            <mat-form-field class="col-12" 
+              *ngFor="let atributo of productoAtributos" 
+              [ngClass]="{'d-none': atributo.atributo == 'Monto Personalizado' && idProductoPrecio != 'montoPersonalizado'}">
+              <mat-label>{{atributo.atributo}}</mat-label>
+              <input matInput 
+                [ngClass]="{'d-none': atributo.idMascara == 6}"
+                #valueAtributo 
+                #valor="ngModel"
+                type="{{atributo.inputType}}"
+                pattern="{{atributo.pattern}}"
+                (keypress)="validaCaracteres($event, atributo.idMascara)"
+                placeholder="{{atributo.descripcion}}" 
+                [maxLength]="atributo.longitud"
+                name="{{atributo.atributo}}"
+                [(ngModel)]="atributo.valor"
+                required>
+
+              <input matInput 
+                currencyMask
+                *ngIf="atributo.idMascara == 6"
+                #valueAtributo 
+                #valor="ngModel"
+                type="{{atributo.inputType}}"
+                pattern="{{atributo.pattern}}"
+                (keypress)="validaCaracteres($event, atributo.idMascara)"
+                placeholder="{{atributo.descripcion}}" 
+                [maxLength]="atributo.longitud"
+                name="{{atributo.atributo}}"
+                [(ngModel)]="atributo.valor"
+                required>
+
+              <mat-hint align="end">{{valueAtributo.value.length}} / {{atributo.longitud}}</mat-hint>
+              <mat-error *ngIf="valueAtributo.value.length == 0">*Campo requerido</mat-error>
+              <mat-error *ngIf="valueAtributo.value.length > 0 && valor.invalid && valor.touched">{{atributo.titleValidation}}</mat-error>
+            </mat-form-field>
+
+            <!-- <mat-form-field *ngFor="let atributo of productoAtributos" [ngClass]="{'d-none': atributo.idMascara != 7}">
+              <mat-label>{{atributo.atributo}}</mat-label>
+              <input matInput #atrib placeholder="{{atributo.descripcion}}" [maxLength]="atributo.longitud" name="{{atributo.atributo}}" [(ngModel)]="atributo.valor" [matDatepicker]="picker" required>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker touchUi #picker></mat-datepicker>
+              <mat-hint align="end">{{atrib.value.length}} / {{atributo.longitud}}</mat-hint>
+              <mat-error *ngIf="atrib.value.length == 0">*Campo requerido</mat-error>
+            </mat-form-field> -->
+          </div>
+
+          <!-- <form [formGroup]="numberPhoneForm" (ngSubmit)="goToPago()">
+            <div class="row">          
+              <mat-form-field class="col-12">
+                <mat-label>Número de teléfono</mat-label>
+                <input type="tel" matInput formControlName="numeroTelefono1">
+                <mat-error *ngIf="telefono1NoValido">*Campo requerido</mat-error>
+              </mat-form-field>
+            
+              <mat-form-field class="col-12">
+                <mat-label>Repetir número de teléfono</mat-label>
+                <input type="tel" matInput formControlName="numeroTelefono2">
+                <mat-error *ngIf="telefono2NoValido">*Los números de teléfono deben coincidir</mat-error>
+              </mat-form-field>
+            </div>
+            
+            <mat-dialog-actions class="d-flex justify-content-end mt-1 mb-0">
+              <button type="submit" class="mr-2" mat-raised-button color="primary">Guardar</button>
+              <a mat-raised-button class="btn-gray-cat text-decoration-none" mat-dialog-close>Cancelar</a>
+            </mat-dialog-actions>
+          </form> -->
+
+          <div class="row mt-4">
+            <div class="text-end">
+              <button color="primary" (click)="closeDialog(dialogTemplate)" class="bg-secondary text-white margin-btn" mat-raised-button>
+                Cancelar
+              </button>
+              <button color="primary" mat-raised-button (click)="goToPago(productoForm)">
+                Continuar
+              </button>
+            </div>
+          </div>
+        </ng-template>
+        <!---End Modal cuando haya precios para elegir y haya campos adicionales requeridos--->    
+      </form>
+
+    </mat-card>
+  </div>
+</div>

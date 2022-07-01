@@ -1,0 +1,194 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!---Nombre de la página (Visible en dispositivos lg y xl)-->
+    <a class="navbar-brand d-none d-lg-block" [routerLink]="['/inicio']">
+      <img src="assets/img/logo_navbar.png" alt="Logo CriptoPago" height="26" width="99">
+    </a>
+
+    <!--Muestra el icono de Notificaciones y Username (visible en dispositivos xs, sm y md)-->
+    <div class="d-flex d-md-flex d-lg-none">
+      <ul class="navbar-nav d-flex flex-row">
+        <li class="nav-item d-flex align-items-center flag-mx">
+          <a class="is-loged d-flex align-items-center" matTooltip="Productos disponibles en México">
+            <img src="assets/img/es.png" alt="México Flag">
+          </a>
+        </li>
+
+        <li class="nav-item d-flex align-items-center icon-bell notification">
+          <a class="nav-link" [matMenuTriggerFor]="notifications" (menuOpened)="resetContadorNotificaciones()">
+            <mat-icon [matBadge]="contadorNotificaciones" [matBadgeHidden]="contadorNotificaciones == 0" matBadgeColor="warn">notifications</mat-icon>
+          </a>
+        </li>
+        <li class="nav-item d-flex align-items-center">
+          <!---Si no hay usuario logueado-->
+          <a class="nav-link" [routerLink]="['/login']" *ngIf="!usuarioLogueado">
+            <i class="fas fa-user"></i> Iniciar sesión
+          </a>
+
+          <!---Si el usuario está logueado (mostrar nombre y foto en dispositivos sm y md)-->
+          <a mat-button [matMenuTriggerFor]="menu" class="nav-link d-none d-sm-block" *ngIf="usuarioLogueado">
+            {{fullNameUser}}<img src="http://gcaseqa-001-site20.atempurl.com/assets/img/portrait/small/avatar-s-3.png" class="avatar" alt="Avatar" width="35" height="35">
+          </a>
+
+          <!---Si el usuario está logueado (mostrar solo su foto en dispositivos xs)-->
+          <a mat-button [matMenuTriggerFor]="menu" class="nav-link d-block d-sm-none" *ngIf="usuarioLogueado">
+            <img src="http://gcaseqa-001-site20.atempurl.com/assets/img/portrait/small/avatar-s-2.png" class="avatar" alt="Avatar" width="35" height="35">
+          </a>
+        </li>
+      </ul>
+    </div>
+    <!--End Muestra el icono de Notificaciones y Username (visible en dispositivos xs, sm y md)-->
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" mat-button [routerLink]="['/inicio']" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+            Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" mat-button [matMenuTriggerFor]="afterMenu">Categorías</a>
+          <mat-menu #afterMenu="matMenu" xPosition="after">
+            <button mat-menu-item *ngFor="let categoria of categorias" [routerLink]="['/categoria', categoria.idCategoria]" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+              <mat-icon>{{categoria.imgUri}}</mat-icon> {{categoria.nombreMenu}}
+            </button> 
+          </mat-menu>
+        </li>
+      </ul>
+      
+      <!--Muestra el icono de Notificaciones y Username (visible en dispositivos lg y xl)-->
+      <div class="d-none d-lg-flex"><!---d-flex d-md-none d-lg-flex-->
+        <a class="is-loged d-flex align-items-center" matTooltip="Productos disponibles en México">
+          <img src="assets/img/es.png" alt="México Flag">
+        </a>
+
+        <a class="is-loged d-flex align-items-center icon-bell" [matMenuTriggerFor]="notifications" (menuOpened)="resetContadorNotificaciones()">
+          <mat-icon [matBadge]="contadorNotificaciones" [matBadgeHidden]="contadorNotificaciones == 0" matBadgeColor="warn">notifications</mat-icon>
+        </a>
+        <mat-menu #notifications="matMenu">
+          <div class="text-primary py-2 d-flex justify-content-center align-items-center px-3 mb-0" *ngIf="notificaciones.length == 0">
+            <dl class="mb-0">
+              <dd class="d-flex align-items-center">
+                <mat-icon class="me-2">error_outline</mat-icon> No hay notificaciones para mostrar
+              </dd>
+            </dl>
+          </div>
+
+          <!-- <div matRipple class=" py-2 d-flex justify-content-center align-items-center px-3 mb-0 item-notification" 
+            *ngFor="let item of notificaciones; let ultimoItem = last;"
+            (click)="openDialogNotification(dialogTemplate, item.idPedido, item.idTrx)"
+            [ngClass]="{'border-bottom': !ultimoItem}">
+            <dl class="mb-0">
+              <dt class="d-flex text-success">
+                <mat-icon class="me-2">check_circle</mat-icon> #{{item.idPedido}} Pago confirmado
+              </dt>
+              <div class="d-flex align-items-center mt-1">
+                <dd class="mb-0">
+                  <img src="http://gcaseqa-001-site20.atempurl.com/Content/prod/141/4601/img/netflix.png" alt="" width="35" height="35">
+                </dd>
+                <dd class="ms-2">
+                  <strong>Netflix</strong>
+                  <br>
+                  <small>12 USDT TRC20</small>
+                </dd>
+              </div>
+            </dl>
+          </div> -->
+          
+          <div matRipple class="py-2 d-flex justify-content-center align-items-center px-3 mb-0 item-notification" 
+            *ngFor="let item of notificaciones; let ultimoItem = last;"
+            (click)="openDialogNotification(dialogTemplate, item.idPedido, item.idTrx)"
+            [ngClass]="{'border-bottom': !ultimoItem}">
+            <dl class="mb-0">
+              <dt class="text-success">
+                <mat-icon class="me-2">check_circle</mat-icon> ¡Hemos aprobado tu pago!
+              </dt>
+              <dd class="text-success">Pedido #{{item?.idPedido}}</dd>
+            </dl>
+          </div>
+        </mat-menu>
+
+        <!---Si no hay usuario logueado-->
+        <a class="nav-link is-loged" [routerLink]="['/login']" *ngIf="!usuarioLogueado">
+          <i class="fas fa-user"></i> Iniciar sesión
+        </a>
+
+        <!---Si el usuario está logueado-->
+        <a mat-button [matMenuTriggerFor]="menu" class="d-flex align-items-center username" *ngIf="usuarioLogueado">
+          {{fullNameUser}}<img src="http://gcaseqa-001-site20.atempurl.com/assets/img/portrait/small/avatar-s-3.png" class="avatar" alt="Avatar" width="35" height="35">
+        </a>
+        <mat-menu #menu="matMenu" xPosition="before">
+          
+          <a class="mat-menu-item text-primary d-block d-sm-none">{{fullNameUser}}</a>
+          <button mat-menu-item [routerLink]="['/mi-perfil']"><mat-icon>account_circle</mat-icon> Mi Perfil</button>
+          <button mat-menu-item [routerLink]="['/mis-pedidos']"><mat-icon>local_mall</mat-icon> Mis Compras</button>
+          <button mat-menu-item (click)="logout()"><mat-icon>logout</mat-icon> Cerrar sesión</button>
+        </mat-menu>
+      </div>
+      <!--End Muestra el icono de Notificaciones y Username (visible en dispositivos lg y xl)-->
+    </div>
+  </div>
+</nav>
+
+<!--<button class="btn btn-primary" (click)="openDialogNotification(dialogTemplate, 1292)">Notificacion</button>-->
+
+<!---Modal para ver los detalles de una notificación--->
+<ng-template #dialogTemplate>
+  <div class="alert alert-light d-flex justify-content-center align-items-center py-5" *ngIf="loadingDataPedido">
+    <p>
+      <mat-spinner></mat-spinner>
+    </p>
+  </div>
+  <div *ngIf="!loadingDataPedido">
+    <mat-dialog-content *ngIf="!loadingDataPedido">
+      <h4 class="title-pedido">Datos del pedido #{{pedido.idPedido}}</h4>
+  
+      <dl *ngFor="let orden of pedido.ordenes">
+
+        <div class="d-flex align-items-center mt-3">
+          <dd class="mb-0">
+            <img class="img-producto-modal img-thumbnail" src="{{orden.uriImagen}}">
+          </dd>
+          <dd class="ms-2">
+            <h5 class="text-secondary mb-0 name-producto">{{orden.nombreProducto}}</h5>
+            <span>{{pedido.montoTotalMx | currency:'MXN$': 'code'}}</span>
+          </dd>
+        </div>
+
+        <!-- <h5 class="text-secondary">{{orden.nombreProducto}}</h5>
+        <dd>{{orden.montoMx | currency:'MXN'}}</dd> -->
+  
+        <div *ngFor="let item of orden.addenda" [ngClass]="{'d-none': item.atributo == 'Monto Personalizado' || item.atributo == 'Monto'}">
+          <dt>{{item.atributo}}</dt>
+          <dd>{{item.valor}}</dd>
+        </div>
+  
+        <hr>
+        
+        <dt>Correo electrónico</dt>
+        <dd>{{pedido.correoInvitado}}</dd>
+  
+        <dt>Monto Cripto</dt>
+        <dd>{{pedido.montoTotalCripto}} USDT TRC20</dd>
+  
+        <dt>Fecha</dt>
+        <dd>{{pedido.fechaInicio | date: "d MMMM y, h:mm a"}}</dd>
+  
+        <dt>Estatus de la transacción</dt>
+        <dd>{{pedido.isTrxConfirmed ? 'Confirmada' : 'En proceso'}}</dd>
+        
+      </dl>
+    </mat-dialog-content>
+    <mat-dialog-actions class="d-flex justify-content-end">
+      <button mat-raised-button class="mb-2" color="primary" [mat-dialog-close]="true" cdkFocusInitial>
+        Aceptar
+      </button>
+    </mat-dialog-actions>
+  </div>
+  
+</ng-template>
+<!---End Modal para ver los detalles de una notificación--->    

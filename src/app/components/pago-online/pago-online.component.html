@@ -1,0 +1,163 @@
+<div class="row mx-2 my-3" *ngIf="loading">
+  <div class="alert alert-light d-flex justify-content-center align-items-center py-5" *ngIf="loading">
+    <p>
+      <mat-spinner></mat-spinner>
+    </p>
+  </div>
+</div>
+
+<div class="row mx-2 my-3" *ngIf="!loading">
+  <div class="col-12 col-lg-4 col-xl-3">
+    <mat-card>
+      <h4>Detalles de la orden</h4>
+
+      <div class="row row-service d-flex justify-content-between align-items-center">
+        <div class="col d-sm-flex d-lg-block">
+          <img src="{{producto.uriImagen}}" class="img-service" alt="">
+          <dl>
+            <h4 class="text-secondary">{{producto.nombreProducto}}</h4>
+            <dd>{{precioProducto | currency:'MXN$': 'code'}}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <dl *ngFor="let atributo of productoAtributos" [ngClass]="{'d-none': atributo.idMascara == 6 && atributo.valor == 0}">
+        <dt>{{atributo.atributo}}</dt>
+        <dd *ngIf="atributo.idMascara == 6">{{atributo.valor | currency:'MXN$': 'code'}}</dd>
+        <dd *ngIf="atributo.idMascara != 6">{{atributo.valor}}</dd>
+      </dl>
+
+      <hr>
+
+      <div class="row d-flex justify-content-between align-items-center">
+        <div class="col">
+          <h6>Total estimado</h6>
+        </div>
+        <div class="col text-end">
+          <h6>{{pedido.montoTotalCripto}} USDT</h6>
+        </div>
+
+        <div class="col-12">
+          <div class="alert alert-info mt-3">
+            <small>
+              Debido a la volatilidad de las criptomonedas, podría reflejarse una ligera diferencia al momento de generar el pago
+            </small>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-lg-8 col-xl-9 mt-4 mt-lg-0">
+    <mat-card>
+      <div class="alert alert-dark text-center" *ngIf="isMontoMayorDosMil">
+        <mat-icon class="icon-alert">error_outline</mat-icon>
+        <h4 class="title-alert">Para pagos superiores a MXN$2,000 pesos, es necesario iniciar sesión</h4>
+        <p>
+          <a class="text-decoration-none" [routerLink]="['/login']">Inicia sesión</a> o regístrate dando clic <a class="text-decoration-none" [routerLink]="['/registro']">aquí</a>
+        </p>
+        <p>
+        </p>
+      </div>
+      <mat-horizontal-stepper labelPosition="bottom" [linear]="isLinear" #stepper *ngIf="!isMontoMayorDosMil">
+        <!---Paso 1 de 3-->
+        <mat-step [stepControl]="correoForm">
+          <ng-template matStepLabel>Dirección de correo electrónico</ng-template>
+
+          <form [formGroup]="correoForm" (ngSubmit)="validateCorreo()">
+            <mat-form-field class="col-12 col-md-6">
+              <mat-label class="field">Introduzca su correo</mat-label>
+              <input matInput type="email" formControlName="correoElectronico">
+              <mat-error *ngIf="correoNoValido">*Campo requerido</mat-error>
+              <mat-error *ngIf="formatoCorreoNoValido">*El correo debe de contener este formato: ejemplo@ejemplo.com</mat-error>
+            </mat-form-field>
+
+            <div class="row mt-3">
+              <div class="col d-flex align-self-center">
+                <mat-checkbox formControlName="terminos">He leído y acepto los Términos y condiciones de CriptoPagos y la Política de privacidad</mat-checkbox>
+              </div>
+              <mat-error class="field" *ngIf="terminosNoValido">*Campo requerido</mat-error>
+            </div>
+  
+            <div class="text-end mt-3">
+              <button color="primary" mat-raised-button [disabled]="correoForm.value.terminos == false">Siguiente</button>
+            </div>
+          </form>
+        </mat-step>
+        <!---End Paso 1 de 3-->
+  
+        <!---Paso 2 de 3-->
+        <mat-step [stepControl]="metodoPagoForm" label="Método de pago">
+          <h5>Seleccione el método de pago</h5>
+          <form [formGroup]="metodoPagoForm" (ngSubmit)="validateMetodoPago()">
+            <mat-radio-group formControlName="criptoMoneda">
+              <div class="row">
+                <div class="col-md-6 col-xl-4 mb-3">
+                  <mat-radio-button class="card-cripto" labelPosition="before" value="USDT">
+                    <div class="card p-4 border-0">
+                      <div class="row">
+                        <div class="col p-0">
+                          <img src="assets/img/icon-usdt.png" class="img-service" alt="">
+                        </div>
+                        <div class="col">
+                          <h5>USDT TRC20</h5>
+                          <small>USDT</small>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-radio-button>
+                </div>
+              </div>
+            </mat-radio-group>
+
+            <div class="text-end mt-3">
+              <button class="btn-back" color="primary" mat-raised-button matStepperPrevious>Regresar</button>
+              <button type="submit" color="primary" mat-raised-button>Siguiente</button>
+            </div>
+          </form>
+        </mat-step>
+        <!---End Paso 2 de 3-->
+        
+        <!---Paso 3 de 3-->
+        <mat-step>
+          <ng-template matStepLabel>Confirmar datos</ng-template>
+
+          <div class="text-center">
+            <h5>Verifica que los datos sean correctos</h5>
+          </div>
+
+          <div class="row">
+            <div class="col-md-8 offset-md-2 text-center">
+              <div class="card py-3 mb-4">
+                <h5>Total a pagar</h5>
+                <h3>{{pedido.montoTotalCripto}} USDT</h3>
+              </div>
+
+              <table class="table table-responsive-md table-bordered">
+                <thead>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="bg-dark text-white">Correo electrónico</td>
+                    <td class="text-break">{{correoForm.controls['correoElectronico'].value}}</td>
+                  </tr>
+                  <tr>
+                    <td class="bg-dark text-white">Método de pago</td>
+                    <td>USDT TRC20</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="text-end">
+            <button class="btn-back" color="primary" mat-raised-button matStepperPrevious>Regresar</button>
+            <button color="primary" (click)="generatePedidoOrden()" mat-raised-button>Confirmar pago</button>
+          </div>
+        </mat-step>
+        <!---End Paso 3 de 3-->
+      </mat-horizontal-stepper>
+
+    </mat-card>
+  </div>
+</div>

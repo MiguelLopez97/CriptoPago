@@ -1,0 +1,106 @@
+<div class="row mx-2 my-3" *ngIf="loading">
+  <div class="alert alert-light d-flex justify-content-center align-items-center py-5" *ngIf="loading">
+    <p>
+      <mat-spinner></mat-spinner>
+    </p>
+  </div>
+</div>
+
+<div class="row mx-2 my-3" *ngIf="!loading">
+  <div class="col-12 col-lg-4">
+    <mat-card>
+      <h4>Detalles de la orden</h4>
+
+      <div class="row d-flex justify-content-between align-items-center">
+        <div class="col d-sm-flex d-lg-block">
+          <img src="{{pedido.ordenes[0].uriImagen}}" class="img-service" alt="Logo {{producto.nombreProducto}}">
+          <dl>
+            <h4 class="text-secondary">{{pedido.ordenes[0].nombreProducto}}</h4>
+            <dd>{{pedido.montoTotalMx | currency:'MXN'}}</dd>
+          </dl>
+        </div>        
+      </div>
+
+      <dl *ngFor="let item of pedido.ordenes[0].addenda" [ngClass]="{'d-none': item.atributo == 'Monto Personalizado'}">
+        <dt>{{item.atributo}}</dt>
+        <dd>{{item.valor}}</dd>
+      </dl>
+      
+      <hr>
+
+      <div class="row d-flex justify-content-between align-items-center">
+        <div class="col">
+          <h6>Total estimado</h6>
+        </div>
+        <div class="col text-end">
+          <h6>{{pedido.montoTotalCripto}} USDT</h6>
+        </div>
+
+        <div class="col-12">
+          <div class="alert alert-info mt-3">
+            <small>            
+              Debido a la volatilidad de las criptomonedas, podría reflejarse una ligera diferencia al momento de generar el pago
+            </small>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-lg-8 mt-4 mt-lg-0">
+    <mat-card>
+      <h4>Pago</h4>
+
+      <!-- <div class="text-center">
+        <mat-icon class="icon-pago text-warning">paid</mat-icon>
+      </div> -->
+
+      <div class="row">
+        <div class="col-12">
+          <div class="alert alert-success text-center">
+            <p class="mb-0">
+              NOTA: Es importante que introduzcas el monto exacto para que tu pago sea validado.
+            </p>
+            <p class="mb-0">
+              Tu pago será confirmado en aproximadamente 4 minutos y se notificará 
+              en el icono <i class="fas fa-bell"></i> y vía correo.
+            </p>
+            <p class="mb-0">
+              (En caso de no ver tu correo, revisa la bandeja de spam)
+            </p>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="alert alert-secondary text-center">
+            Copia los siguientes datos para realizar el pago
+          </div>
+          
+          <dl>
+            <dt>Total a Pagar</dt>
+            <dd>
+              <div class="input-group mb-2">
+                <input type="text" class="form-control" #amount [value]="pedido.montoTotalCripto" readonly>
+                <span class="input-group-text" >USDT TRC20</span>
+              </div>
+            </dd>
+            <button class="mb-4" mat-raised-button (click)="copyAmount()" color="accent">Copiar Monto a Pagar</button>
+
+            <dt>Address</dt>
+            <dd>
+              <input class="form-control mb-2" type="text" #address [value]="pedido.address" readonly>
+            </dd>
+            <button mat-raised-button (click)="copyAddress()" color="accent">Copiar Address</button>
+          </dl>
+        </div>
+
+        <div class="col-md-6 text-center">
+          <div class="alert alert-secondary">
+            O escanea este código QR para realizar el pago
+          </div>
+          <img class="img-thumbnail" src="data:image/jpg;base64,{{pedido.addressQR}}" width="250" height="250">
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

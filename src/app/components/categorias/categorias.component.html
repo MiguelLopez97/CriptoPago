@@ -1,0 +1,55 @@
+<div class="row mx-2 my-3" *ngIf="categorias.length > 0 && !loadingInicial">
+  <div class="col-xl-3">
+    <mat-card>
+      <h4>Categorías</h4>
+      <!--Visible en dispositivos (lg y xl)-->
+      <mat-selection-list #categories class="d-none d-lg-block" [multiple]="false">
+        <mat-list-option *ngFor="let categoria of categorias" [value]="categoria.idCategoria" [selected]="categoria.idCategoria == idCategoriaSelected" [routerLink]="['/categoria', categoria.idCategoria]">
+          {{categoria.nombreMenu}}
+        </mat-list-option>
+      </mat-selection-list>
+
+      <!--Visible en dispositivos (xs, sm y md)-->
+      <mat-form-field class="col-12 mt-3 d-md-block d-lg-none">
+        <mat-label>Selecciona una categoría</mat-label>
+        <mat-select [(ngModel)]="idCategoriaSelected">
+          <mat-option *ngFor="let categoria of categorias" [value]="categoria.idCategoria" [routerLink]="['/categoria', categoria.idCategoria]">
+            {{categoria.nombreMenu}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card>
+  </div>
+
+  <div class="col-xl-9 mt-4 mt-xl-0">
+    <div class="alert alert-light d-flex justify-content-center align-items-center py-5" *ngIf="loading">
+      <p>
+        <mat-spinner></mat-spinner>
+      </p>
+    </div>
+
+    <mat-card *ngIf="!loading">
+      <h4 class="mb-3">{{titleCategoriaSelected}}</h4>
+      <div class="row">
+        <div class="col-6 col-md-4 col-lg-4 col-xxl-3 mb-5 text-center" *ngFor="let publicacion of publicaciones">
+          <a class="text-decoration-none" [routerLink]="['/productos/detalle', publicacion.idProducto]">
+            <mat-card class="text-center h-100 p-lg-5">
+              <img [src]="publicacion.uriImagen" class="img-fluid img-logo">
+            </mat-card>
+            <p>{{publicacion.nombreProducto}}</p>
+          </a>          
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<!---Loading inicial-->
+<div class="row mx-2 my-3" *ngIf="loadingInicial">
+  <div class="alert alert-light d-flex justify-content-center align-items-center py-5">
+    <p>
+      <mat-spinner></mat-spinner>
+    </p>
+  </div>
+</div>
+<!---End Loading inicial-->

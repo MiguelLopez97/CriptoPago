@@ -1,0 +1,40 @@
+<section id="recover-pass" class="animated fadeInRight d-flex justify-content-center align-items-center">
+  <div class="container-fluid">
+    <div class="row m-0">
+      <div class="col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+        <mat-card class="pt-5 px-lg-5">
+          <div class="justify-content-center mb-4">
+            <h3 class="text-center">Recuperar contraseña</h3>
+            <div class="alert alert-primary" role="alert">
+              Te enviaremos una nueva contraseña al correo electrónico que proporciones
+            </div>
+          </div>
+          <mat-card-content>
+            <form [formGroup]="recoverPassForm" (ngSubmit)="resendCredenciales()">
+              <mat-form-field class="col-12">
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput type="email" formControlName="correoElectronico">
+                <mat-error *ngIf="correoNoValido">*Campo requerido</mat-error>
+              </mat-form-field>
+      
+              <button type="submit" mat-raised-button color="primary" class="w-100 mt-3 btn-rounded">Recuperar</button>
+
+              <div class="row mt-3 mb-2">
+                <a mat-button color="primary" [routerLink]="['/login']">
+                  <mat-icon>arrow_back</mat-icon> Regresar al Inicio de sesión
+                </a>
+              </div>
+
+              <hr>
+
+              <div class="row text-center">
+                <small class="text-secondary">© 2021 Todos los derechos reservados</small>
+              </div>
+      
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

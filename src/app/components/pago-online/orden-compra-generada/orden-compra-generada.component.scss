@@ -1,0 +1,23 @@
+h4 { 
+  font-weight: 700;
+}
+
+.img-service {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+/* .icon-pago {
+  width: unset;
+  height: unset;
+  font-size: 70px;
+} */
+
+//Agrega un margen derecho a la imagen cuando sean dimensiones como el Ipad
+@media (min-width: 576px) and (max-width: 991px) {
+  .img-service {
+    margin-right: 20px;
+  }
+}

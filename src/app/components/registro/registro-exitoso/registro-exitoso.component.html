@@ -1,0 +1,37 @@
+<section id="register" class="d-flex justify-content-center align-items-center">
+  <div class="container-fluid">
+    <div class="row mx-0 my-5">
+      <div class="col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+        <mat-card class="pt-4 px-lg-5 animatedDotFiveSecond zoomIn">
+          <div class="justify-content-center mb-4">
+            <h2 class="text-success text-center">
+              <mat-icon class="icon-success">mark_email_read</mat-icon>
+            </h2>
+            <h3 class="text-center mb-4">¡Registro exitoso!</h3>
+            <h5 class="text-primary text-center">
+              En breve te haremos llegar a tu correo electrónico los pasos para activar tu cuenta
+            </h5>
+
+            <button type="button" [routerLink]="['/login']" mat-raised-button color="primary" class="w-100 my-3 btn-rounded">
+              Ir al inicio de sesión
+            </button>
+
+            <div class="text-center">
+              <div class="alert alert-success">
+                <small>
+                  Si en 2 minutos aún no recibes un correo de confirmación, 
+                  <a class="text-primary link-reenviar" (click)="resendCorreo()">da clic aquí</a> 
+                  para reenviarte un nuevo correo.
+                </small>
+              </div>
+              <small class="fst-italic">
+                *Comprueba en la carpeta <b>Correo no deseado (Spam)</b> de tu correo electrónico, que te haya 
+                llegado el correo de confirmación antes de reenviar de nuevo el correo.
+              </small>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

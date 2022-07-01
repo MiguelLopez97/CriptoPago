@@ -1,0 +1,56 @@
+<section id="login" class="animated fadeInRight d-flex justify-content-center align-items-center">
+  <div class="container-fluid">
+    <div class="row m-0">
+      <div class="col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+        <mat-card class="pt-5 px-lg-5">
+          <div class="justify-content-center mb-4">
+            <h3 class="text-center">Iniciar sesión</h3>
+          </div>
+          <mat-card-content>
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+              <mat-form-field class="col-12">
+                <mat-label>Correo electrónico</mat-label>
+                <input matInput type="email" formControlName="correoElectronico">
+                <mat-error *ngIf="correoNoValido">*Campo requerido</mat-error>
+              </mat-form-field>
+        
+              <mat-form-field class="col-12">
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" formControlName="contrasenia">
+                <mat-error *ngIf="contraseniaNoValida">*Campo requerido</mat-error>
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col d-flex align-self-center">
+                  <mat-checkbox>Recordarme</mat-checkbox>
+                </div>
+                <div class="col d-flex justify-content-end">
+                  <a mat-button [routerLink]="['/recuperar-password']" color="primary">¿Olvidaste tu contraseña?</a>
+                </div>
+              </div>
+      
+              <button type="submit" mat-raised-button color="primary" class="w-100 mt-3 btn-rounded">Iniciar sesión</button>
+
+              <div class="row mt-3 mb-2">
+                <a mat-button color="primary" [routerLink]="['/registro']">No tengo cuenta y deseo registrarme</a>
+              </div>
+
+              <div class="row mt-3 mb-2">
+                <a mat-button color="primary" [routerLink]="['/inicio']">
+                  <mat-icon>home</mat-icon> Regresar a la página principal
+                </a>
+              </div>
+
+              <hr>
+
+              <div class="row text-center">
+                <small class="text-secondary">© 2021 Todos los derechos reservados</small>
+              </div>
+      
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

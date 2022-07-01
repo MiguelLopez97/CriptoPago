@@ -1,0 +1,113 @@
+<div class="overflow-hidden">
+  <div class="row text-white">
+    <div class="main-bg">
+      <div class="transparencia text-center"><!---d-flex justify-content-center align-items-center-->
+        <img class="img-fluid" src="assets/img/logo_criptopago.png" alt="Logo CriptoPagos" >
+        <h1 class="title">Tus criptomonedas en el mundo real</h1>
+        <h4 class="sub-title">Paga tus servicios de forma sencilla</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-2 my-4 text-center">
+    <div class="col-12">
+      <mat-card class="py-4">
+        <h3 class="mb-4 font-weight-700">Categorías</h3>
+        <div class="row">
+          <div class="col-12 col-md-4 mb-4" *ngFor="let categoria of categorias; let i = index">
+            <a class="text-decoration-none" [routerLink]="['/categoria', categoria.idCategoria]">
+              <mat-card class="py-5 text-white"
+                [ngClass]="{'bg-teal-md': i % 2 == 0, 'bg-deep-purple-md': i % 2 !== 0}">
+                <mat-icon>{{categoria.imgUri}}</mat-icon>
+                <h4>{{categoria.nombreMenu}}</h4>
+              </mat-card>
+            </a>
+          </div>
+          <!-- <div class="col-12 col-md-4 mb-4" *ngFor="let categoria of categoriasCards">
+            <a class="text-decoration-none" [routerLink]="['/productos']">
+              <mat-card class="py-5 text-white {{categoria.class}}">
+                <mat-icon>{{categoria.icon}}</mat-icon>
+                <h4>{{categoria.title}}</h4>
+              </mat-card>
+            </a>
+          </div> -->
+        </div>
+      </mat-card>      
+    </div>
+  </div>
+
+  <div class="row mx-2 my-4 text-center">
+    <div class="col-12">
+      <mat-card class="py-5">
+        <h3 class="mb-5 font-weight-700">Algunos de los servicios que puedes pagar con nosotros</h3>
+
+        <div class="row d-flex align-items-center">
+          <div class="col-4 col-md-2 mb-3" *ngFor="let img of logosServicios">
+            <img class="img-fluid logo-servicio" [src]="img.src">
+          </div>
+        </div>
+        
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row mx-2 my-4 text-center">
+    <div class="col-12">
+      <mat-card class="py-5">
+        <h3 class="mb-5 font-weight-700">Recomienda criptoPago a tus amigos y conocidos</h3>
+
+        <div class="row">
+          <div class="col-12 col-md-6 mb-3" *ngFor="let item of iconsSocialNetworks; let i = index">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <mat-icon class="{{item.class}}">{{item.icon}}</mat-icon>
+                </h5>
+                <h5 class="card-subtitle mb-2">{{item.title}}</h5>
+                <button (click)="actionButtonRecomendacion(item.icon)" mat-raised-button color="primary" [ngClass]="{'d-none': i == 0 && !hideForm}">
+                  Recomendar
+                </button>
+
+                <form class="animated bounceInDown" [formGroup]="correoRecomendacionForm" (ngSubmit)="sendCorreoRecomendacion()" *ngIf="i == 0 && !hideForm">
+                  <mat-form-field class="col-12 mb-3">
+                    <mat-label>Ingresa el correo al que nos quieres recomendar</mat-label>
+                    <input type="email" matInput formControlName="correoElectronico">
+                    <mat-error *ngIf="correoNoValido">*Campo requerido</mat-error>
+                    <mat-error *ngIf="formatoCorreoNoValido">*El correo debe de contener este formato: ejemplo@ejemplo.com</mat-error>
+                  </mat-form-field>
+  
+                  <button type="submit" mat-raised-button color="primary">Enviar correo</button>
+                  <button type="button" mat-raised-button class="bg-secondary text-white ms-3" (click)="hideForm = true">
+                    Cancelar
+                  </button>
+                </form>
+              </div>        
+            </div>
+          </div>
+        </div>
+
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row mx-2 my-4 text-center">
+    <div class="col-12">
+      <mat-card class="p-0">
+        <!-- <h3 class="mb-5 font-weight-700">¿Tienes dudas?</h3>
+        <h4>No te preocupes, puedes comunicarte con nosotros, será un gusto atenderte.</h4> -->
+
+        <div class="curve">
+          <div class="content text-white">
+            <h3 class="mb-5 pt-5 font-weight-700">¿Tienes dudas?</h3>
+            <h4>No te preocupes, puedes comunicarte con nosotros, será un gusto atenderte.</h4>
+
+            <button mat-raised-button color="primary">Contáctanos</button>
+          </div>
+        </div>
+
+        
+      </mat-card>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,98 @@
+<section id="register" class="animated fadeInRight d-flex justify-content-center align-items-center">
+  <div class="container-fluid">
+    <div class="row mx-0 my-5">
+      <div class="col-md-8 offset-md-2 col-xl-6 offset-xl-3">
+        <mat-card class="pt-4 px-lg-5">
+          <div class="justify-content-center mb-4">
+            <h3 class="text-center mb-4">Registro</h3>
+            <div class="alert alert-primary text-center" role="alert">
+              <!---Sólo necesitamos tu nombre y un correo electrónico para poder registrarte---->
+              Los datos recabados son tratados confidencialmente y únicamente para uso estadístico.
+            </div>
+          </div>
+          <mat-card-content>
+            <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+              <div class="row">
+                <mat-form-field class="col-12 col-md-4">
+                  <mat-label class="field">Nombre</mat-label>
+                  <input matInput type="text" formControlName="nombre">
+                  <mat-error *ngIf="nombreNoValido">*Campo requerido</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-12 col-md-4">
+                  <mat-label class="field">Apellido Paterno</mat-label>
+                  <input matInput type="text" formControlName="apPaterno">
+                  <mat-error *ngIf="apPaternoNoValido">*Campo requerido</mat-error>
+                </mat-form-field>
+
+                  <mat-form-field class="col-12 col-md-4">
+                  <mat-label class="field">Apellido Materno</mat-label>
+                  <input matInput type="text" formControlName="apMaterno">
+                </mat-form-field>
+              </div>              
+
+              <mat-form-field class="col-12">
+                <mat-label class="field">Correo electrónico</mat-label>
+                <input matInput type="email" formControlName="correoElectronico">
+                <mat-error *ngIf="correoNoValido">*Campo requerido</mat-error>
+              </mat-form-field>
+
+              <div class="row">
+                <mat-form-field class="col-12 col-md-6">
+                  <mat-label class="field">Teléfono</mat-label>
+                  <input matInput type="tel" formControlName="celular">
+                  <mat-error *ngIf="telefonoNoValido">*Campo requerido</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-12 col-md-6">
+                  <mat-label class="field">Ciudad</mat-label>
+                  <input matInput type="text" formControlName="ciudad">
+                  <mat-error *ngIf="ciudadNoValido">*Campo requerido</mat-error>
+                </mat-form-field>
+              </div>
+
+              <mat-form-field class="col-12">
+                <mat-label>País</mat-label>
+                <input type="text" 
+                  placeholder="Selecciona un país" 
+                  matInput 
+                  formControlName="pais"
+                  [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayWith">
+                  <mat-option *ngFor="let pais of filteredOptions | async" [value]="pais">
+                    <img [src]="pais.flag" width="30"> {{pais.name}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="paisNoValido">*Campo requerido</mat-error>
+                <mat-error *ngIf="paisNoSeleccionado">*Selecciona un país de la lista</mat-error>
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col d-flex align-self-center">
+                  <mat-checkbox formControlName="terminos">Aceptar términos y condiciones</mat-checkbox>
+                </div>
+                <mat-error *ngIf="terminosNoValido">*Campo requerido</mat-error>
+              </div>
+      
+              <button type="submit" mat-raised-button color="primary" class="w-100 mt-3 btn-rounded">
+                Registrarme
+              </button>
+
+              <div class="row mt-3 mb-2">
+                <a mat-button color="primary" [routerLink]="['/login']">
+                  <mat-icon>arrow_back</mat-icon> Regresar al Inicio de sesión
+                </a>
+              </div>
+
+              <hr>
+
+              <div class="row text-center">
+                <small class="text-secondary">© 2021 Todos los derechos reservados</small>
+              </div>      
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

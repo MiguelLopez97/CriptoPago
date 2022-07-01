@@ -1,0 +1,37 @@
+<div class="row mx-2 my-3">
+  <div class="col-12 col-lg-4">
+    <mat-card>
+      <span class="text-secondary">Pagaste</span>
+      <h4 class="font-weight-700">Google Play</h4>
+      <div class="text-center">
+        <img class="img-thumbnail img-producto" src="http://gcaseqa-001-site20.atempurl.com/Content/prod/141/4602/img/google_play.jpg">
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="col-12 col-lg-8 mt-4 mt-lg-0">
+    <mat-card>
+      <h4 class="font-weight-700">Califica el servicio</h4>
+      <p>¿Cuantas estrellas le darías al servicio en general?</p>
+
+      <div class="row">
+        <ngb-rating [(rate)]="currentRate">
+          <ng-template let-fill="fill" let-index="index">
+            <span class="star" [class.filled]="fill === 100">&#9733;</span>
+          </ng-template>
+        </ngb-rating>
+
+        <p>Calificación: <b>{{currentRate}}</b></p>
+      </div>
+
+      <form class="example-form">          
+        <mat-form-field class="col-12">
+          <mat-label>Añade un comentario (opcional)</mat-label>
+          <textarea matInput></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary">Enviar calificación</button>
+      </form>
+    </mat-card>
+  </div>
+</div>

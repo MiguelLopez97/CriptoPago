@@ -1,0 +1,74 @@
+h4, .username, .is-loged {
+  font-family: Inter !important;
+}
+
+.nav-link, .is-loged, .username {
+  font-weight: 500;
+  font-size: .875rem;
+}
+
+.username, .is-loged {
+  color: rgba(255,255,255,.55);
+  text-decoration: none;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+.is-loged {
+  display: block;
+  padding: .5rem 1rem;  
+}
+
+.flag-mx {
+  margin-right: 10px;
+}
+
+.icon-bell {
+  cursor: pointer;
+}
+
+.notification {
+  margin-right: 40px;
+}
+
+.item-notification:hover {
+  //background-color: #4CAF50;
+  //color: #FFFFFF !important;
+  cursor: pointer;
+  background-color: #F8F9FA;
+}
+
+.fa-bell {
+  font-size: 1.25rem;
+}
+
+.avatar {
+  white-space: nowrap;
+  background-color: #E0E0E0;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  color: #616161;
+  display: inline-flex;
+  font-size: 0.75rem;
+  text-align: center;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
+.mat-menu-item {
+  //color: rgb(55, 65, 81) !important;
+  font-family: Inter !important;
+  font-size: .875rem;
+}
+
+.title-pedido, .name-producto {
+  font-weight: 700;
+}
+
+.img-producto-modal {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}

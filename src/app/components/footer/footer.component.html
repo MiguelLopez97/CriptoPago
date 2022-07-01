@@ -1,0 +1,16 @@
+<footer class="bg-dark pt-4 text-center">
+  <div class="container">
+    <div class="row">
+      <div class="col" *ngFor="let link of links">
+        <a class="link-footer text-decoration-none" [routerLink]="[link.route]">{{link.nombre}}</a>
+      </div>
+    </div>
+
+    <hr class="link-footer mb-0">
+  </div>
+
+  
+  <div class="text-copyright text-center p-3">
+    © {{currentDate | date: 'yyyy'}} | criptoPago | Todos los derechos reservados 
+  </div>
+</footer>

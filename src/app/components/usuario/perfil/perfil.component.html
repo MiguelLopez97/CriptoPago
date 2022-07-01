@@ -1,0 +1,97 @@
+<div class="row mx-2 my-3">
+  <div class="col-md-4">
+    <mat-card>
+      <h4><i class="fas fa-camera"></i> Foto de usuario</h4>
+      <div class="row d-flex align-items-center justify-content-between text-center mb-3 mt-2">
+        <div class="col col-sm-12 col-xl-6 mb-3">
+          <mat-icon class="text-secondary" *ngIf="imgUri == null">account_circle</mat-icon>
+          <img [src]="imgUri" class="img-profile" alt="" *ngIf="imgUri != null">
+        </div>
+        <div class="col col-sm-12 col-xl-6">
+          <a mat-raised-button class="btn-rounded" color="accent" (click)="fileInput.click()">
+            Selecciona un archivo
+            <input #fileInput type="file" (change)="onChangeFile($event)" accept=".jpg, .jpeg, .png" class="d-none">
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <!-- <div class="col-12 mb-4 text-center">
+          <button mat-raised-button class="btn-rounded" color="accent">Selecciona un archivo</button>
+        </div> -->
+        <div class="col-12 col-xl-6 mb-4 mb-xl-0">
+          <button mat-raised-button class="w-100 btn-rounded" color="primary" (click)="uploadAvatarUsuario()">Aplicar fotografía</button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="col-md-8 mt-4 mt-sm-0">
+    <mat-card>
+      <h4 class="mb-3"><i class="fas fa-user"></i> Mis Datos</h4>
+
+      <form [formGroup]="userForm" (ngSubmit)="updateUsuario()">
+        <mat-form-field class="col-12">
+          <mat-label class="field">Nombre</mat-label>
+          <input matInput type="text" formControlName="nombre">
+          <mat-error *ngIf="nombreNoValido">*Campo requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+          <mat-label class="field">Apellido Paterno</mat-label>
+          <input matInput type="text" formControlName="apPaterno">
+          <mat-error *ngIf="apPaternoNoValido">*Campo requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+          <mat-label class="field">Apellido Materno</mat-label>
+          <input matInput type="text" formControlName="apMaterno">
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+          <mat-label class="field">Correo Electrónico</mat-label>
+          <input matInput type="email" formControlName="correoElectronico">
+          <mat-error *ngIf="correoNoValido">*Campo requerido</mat-error>
+        </mat-form-field>
+
+        <!-- <mat-form-field class="col-12">
+          <mat-label class="field">Teléfono</mat-label>
+          <input matInput type="tel" formControlName="telefono">
+        </mat-form-field> -->
+
+        <div class="text-end">
+          <button type="submit" mat-raised-button color="primary" class="btn-rounded">
+            Actualizar
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+
+  <div class="col-md-8 offset-md-4 mt-4">
+    <mat-card>
+      <h4 class="mb-3"><i class="fas fa-key"></i> Cambiar contraseña</h4>
+
+      <form [formGroup]="changePassForm" (ngSubmit)="changePassword()">
+        <div class="row">
+          <mat-form-field class="col-12 col-lg-6">
+            <mat-label class="field">Nueva contraseña</mat-label>
+            <input matInput type="password" formControlName="nuevaPass1">
+            <mat-error *ngIf="pass1NoValido">*Campo requerido</mat-error>
+          </mat-form-field>
+  
+          <mat-form-field class="col-12 col-lg-6">
+            <mat-label class="field">Confirmar nueva contraseña</mat-label>
+            <input matInput type="password" formControlName="nuevaPass2">
+            <mat-error *ngIf="pass2NoCoincide">*Las contraseñas deben coincidir</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="text-end">
+          <button type="submit" mat-raised-button color="primary" class="btn-rounded">
+            Actualizar contraseña
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+#register {
+  background-image: url('../../../assets/img/auth-bg.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+
+  h3, .field, small, a, .mat-checkbox, .alert {
+    font-family: 'Inter';  
+  }
+  
+  small, .alert {
+    font-weight: 500;
+  }
+  
+  .alert {
+    font-size: .875rem;
+  }
+  
+  h3 {
+    font-weight: 700;
+  }
+}

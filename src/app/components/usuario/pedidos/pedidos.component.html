@@ -1,0 +1,39 @@
+<div class="row mx-2 my-3">
+  <div class="col-md-6 offset-md-3">
+    <mat-card>
+      <h4>Mis Compras</h4>
+
+      <div class="alert alert-light d-flex justify-content-center align-items-center py-5" *ngIf="loading">
+        <p>
+          <mat-spinner></mat-spinner>
+        </p>
+      </div>
+
+      <div *ngIf="!loading">
+        <mat-card class="mb-4" *ngFor="let pedido of pedidos">
+          <div class="row d-flex justify-content-between align-items-center">
+            <div class="col d-flex d-flex align-items-center">
+              <img [src]="pedido.ordenes[0].uriImagen" class="img-thumbnail img-service" alt="">
+              <h5 class="ms-2">{{pedido.ordenes[0].nombreProducto}}</h5>
+            </div>
+
+            <div class="col text-end">
+              <button color="primary" mat-raised-button [routerLink]="['/mis-pedidos/detalle', pedido.idPedido]">Ver detalles</button>
+            </div>
+          </div>
+  
+          <dl>
+            <dd>
+              <small>Compra realizada el día {{pedido.fechaInicio | date: "d 'de' MMMM 'de' y, h:mm a"}}</small>
+            </dd>
+            <dd>
+              <span class="badge rounded-pill bg-success" *ngIf="pedido.isTrxConfirmed == true">Pago aprobado</span>
+              <span class="badge rounded-pill bg-warning text-dark" *ngIf="pedido.isTrxConfirmed == false">Pago por aprobar</span>
+            </dd>
+          </dl>
+        </mat-card>
+      </div>
+     
+    </mat-card>
+  </div>
+</div>
